@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t kacperb/react-test -f ./client/Dockerfile.dev ./client
+  - docker run USERNAME/react-test npm test -- --coverage
   
 script:
   - docker run -e CI=true kacperb/react-test npm test
