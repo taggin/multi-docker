@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t kacperb/react-test -f ./client/Dockerfile.dev ./client
+  
+script:
+  - docker run -e CI=true kacperb/react-test npm test
+
+after_success:
+  - docker build  -t kacperb/multi-client ./client
+  - docker build -t kacperb/multi-nginx ./nginx
+  - docker buiid -t kacperb/multi-server ./server
+  - docker buiid -t kacperb/multi-worker ./worker
+  # log in to the docker CLI
+  - echo "DOCKER_PASSWORD" | docker login - u "$DOCKER_ID" --password-stdin
+  # push image to docker hub
+  - docker push kacperb/multi-client
+  - docker push kacperb/multi-nginx
+  - docker push kacperb/multi-server
+  - docker push kacperb/multi-worker
