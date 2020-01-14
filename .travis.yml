@@ -11,8 +11,8 @@ script:
 after_success:
   - docker build -t kacperb/multi-client ./client
   - docker build -t kacperb/multi-nginx ./nginx
-  - docker buiid -t kacperb/multi-server ./server
-  - docker buiid -t kacperb/multi-worker ./worker
+  - docker build -t kacperb/multi-server ./server
+  - docker build -t kacperb/multi-worker ./worker
   # log in to the docker CLI
   - echo "DOCKER_PASSWORD" | docker login - u "$DOCKER_ID" --password-stdin
   # push image to docker hub
