@@ -3,13 +3,13 @@ services:
   - docker
 
 before_install:
-  - docker run USERNAME/react-test npm test -- --coverage
+  - docker build -t kacperb/react-test -f ./client/Dockerfile.dev ./client
   
 script:
   - docker run -e CI=true kacperb/react-test npm test
 
 after_success:
-  - docker build  -t kacperb/multi-client ./client
+  - docker build -t kacperb/multi-client ./client
   - docker build -t kacperb/multi-nginx ./nginx
   - docker buiid -t kacperb/multi-server ./server
   - docker buiid -t kacperb/multi-worker ./worker
